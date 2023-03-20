@@ -39,6 +39,7 @@ const toggleInputType = () => {
     position: relative;
 }
 .sp-input__input {
+    width: 100%;
     padding: 10px;
     padding-right: 50px;
     font-size: 15px;

@@ -17,12 +17,13 @@ export const useStrongPasswordStore = defineStore('strong_password', () => {
 
     function check(password) {
         if (!password) {
-            return (rules.value = defaultRules)
+            checkedRules.value = defaultState.checkedRules
+            strength.value = defaultState.strength
+            return
         }
         const result = checkPassword(password)
         checkedRules.value = result.checkedRules
         strength.value = result.strength
-        console.log(result)
     }
 
     return {

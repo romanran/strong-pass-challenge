@@ -21,7 +21,6 @@ const strengthClassModifier = {
 
 const store = useStrongPasswordStore()
 const { checkedRules, strength } = storeToRefs(useStrongPasswordStore())
-console.log(checkedRules)
 
 const checkPassword = (event) => {
     store.check(event.target.value)
@@ -29,8 +28,8 @@ const checkPassword = (event) => {
 </script>
 
 <template>
-    <div>
-        <SPInput @input="checkPassword"></SPInput>
+    <div class="strong-password">
+        <SPInput @input="checkPassword" @change="checkPassword"></SPInput>
 
         <ul class="password-hints">
             <li
@@ -47,17 +46,22 @@ const checkPassword = (event) => {
             class="password-hints__strength"
             :class="strengthClassModifier[strength]"
             data-test="validation-summary"
-            >{{ StrengthOptionLabel[strength] }}</span
+            >{{ strength === StrengthOption.Strong ? '😀' : '😥' }}
+            {{ StrengthOptionLabel[strength] }}</span
         >
     </div>
 </template>
 
-<style>
+<style lang="postcss">
+.strong-password {
+    --color-transition: color 100ms ease;
+}
 .password-hints {
     padding: 0;
 }
 .password-hints__rule {
     list-style: none;
+    transition: var(--color-transition);
 }
 .password-hints__rule--fail {
     text-decoration: line-through;
@@ -66,10 +70,13 @@ const checkPassword = (event) => {
 .password-hints__rule--pass {
     color: var(--color-pass);
 }
+.password-hints__strength {
+    transition: var(--color-transition);
+}
 .password-hints__strength--strong {
     color: var(--color-pass);
 }
 .password-hints__strength--weak {
-    color: var(--color-pass);
+    color: var(--color-fail);
 }
 </style>
