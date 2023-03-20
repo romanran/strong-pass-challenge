@@ -1,9 +1,11 @@
 <script setup="ref">
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import EyeIcon from '@/assets/eye.svg'
 import EyeOffIcon from '@/assets/eye-off.svg'
+const props = defineProps(['title', 'type'])
 
-const inputType = ref('password')
+const originalInputType = unref(props.type)
+const inputType = ref(props.type)
 
 const toggleInputType = () => {
     inputType.value = inputType.value === 'password' ? 'text' : 'password'
@@ -12,15 +14,20 @@ const toggleInputType = () => {
 
 <template>
     <div class="sp-input">
-        <span class="sp-input__title">Password:</span>
+        <span class="sp-input__title">{{ props.title }}</span>
         <div class="sp-input__wrap">
             <input
                 v-bind:type="inputType"
                 class="sp-input__input"
+                :class="`sp-input__input--${originalInputType}`"
                 name="password"
                 data-test="password-field"
             />
-            <button class="sp-input__toggle" @click="toggleInputType">
+            <button
+                class="sp-input__toggle"
+                @click="toggleInputType"
+                v-if="originalInputType === 'password'"
+            >
                 <div class="sp-input__eye" v-if="inputType === 'password'" v-html="EyeIcon"></div>
                 <div class="sp-input__eye" v-else v-html="EyeOffIcon"></div>
             </button>
@@ -33,7 +40,7 @@ const toggleInputType = () => {
 }
 .sp-input__title {
     display: block;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 .sp-input__wrap {
     position: relative;
@@ -41,7 +48,6 @@ const toggleInputType = () => {
 .sp-input__input {
     width: 100%;
     padding: 10px;
-    padding-right: 50px;
     font-size: 15px;
     background: none;
     border-radius: 3px;
@@ -51,6 +57,9 @@ const toggleInputType = () => {
         outline: none;
         border-color: #666;
     }
+}
+.sp-input__input--password {
+    padding-right: 30px;
 }
 .sp-input__toggle {
     position: absolute;

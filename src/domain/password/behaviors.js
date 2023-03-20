@@ -8,9 +8,9 @@ export function checkRules(password) {
         { key: RULE.UpperAndLower, value: new RegExp(/([a-z][A-Z]|[A-Z][a-z])/).test(password) },
         { key: RULE.OneNumber, value: new RegExp(/([0-9])/).test(password) },
         { key: RULE.SpecialSymbol, value: new RegExp(/([^A-Za-z0-9])/).test(password) },
-        { key: RULE.LongerThan4, value: password.length >= 4 },
-        { key: RULE.LongerThan8, value: password.length >= 8 },
-        { key: RULE.LongerThan12, value: password.length >= 12 }
+        { key: RULE.LongerThan4, value: password.length > 4 },
+        { key: RULE.LongerThan8, value: password.length > 8 },
+        { key: RULE.LongerThan12, value: password.length > 12 }
     ]
     return rulesPassed
 }
